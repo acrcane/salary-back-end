@@ -15,6 +15,7 @@ export const signupController = async (req, res, next) => {
     }
     const user = await createUser(req.body);
     res.status(201).json({
+      token: user.token,
       user: {
         name,
         email,
@@ -55,12 +56,9 @@ export const signinController = async (req, res, next) => {
 };
 
 export const currentUserController = async (req, res) => {
-  const { email, name } = req.user;
+  const { name, email, role } = req.user;
 
-  res.status(200).json({
-    email,
-    name,
-  });
+  res.status(200).json({ name, email, role });
 };
 
 export const signout = async (req, res) => {

@@ -11,4 +11,13 @@ const tableSchema = new Schema(
   { versionKey: false }
 );
 
+tableSchema.virtual('workSession', {
+  ref: 'workSession',
+  localField: '_id',
+  foreignField: 'table',
+})
+
+tableSchema.set('toObject', { virtuals: true });
+tableSchema.set('toJSON', { virtuals: true });
+
 export const Table = model('table', tableSchema);

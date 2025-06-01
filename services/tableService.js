@@ -1,21 +1,15 @@
 import { Table } from '../db/models/Tabel.js';
 import HttpError from '../helpers/HttpError.js';
-// import month from '../helpers/month.js';
+import { currentMonth } from '../helpers/currentMonth.js';
 
 export const createTableService = async userId => {
-  const now = new Date();
-  const currentMonth = now.toLocaleString('default', {
-    month: 'long',
-    year: 'numeric',
-  });
-
-  const existingTable = await Table.findOne({
+  const openTabel = await Table.findOne({
     owner: userId,
-    title: currentMonth,
+    status: 'open',
   });
 
-  if (existingTable) {
-    throw HttpError(400, 'table already exist');
+  if (openTabel) {
+    throw HttpError(400, 'You already have an open table');
   }
 
   const table = new Table({ title: currentMonth, owner: userId });
@@ -25,7 +19,29 @@ export const createTableService = async userId => {
   return table;
 };
 
-export const getTableService = async owner => {
-  const table = await Table.find({ owner });
+export const getTableService = async (id, owner) => {
+  const table = await Table.findOne({
+    _id: id,
+    owner,
+    status: 'open',
+  }).populate('workSession');
   return table;
+};
+
+export const closeTableService = async (id, owner) => {
+  const table = await Table.findOne({ _id: id, owner });
+  if (!table) {
+    throw HttpError(404, 'Not foun');
+  }
+  if (table.status === 'close') {
+    throw HttpError(400, 'This table is already close');
+  }
+  table.status = 'close';
+  table.closedAt = new Date();
+  await table.save();
+};
+
+export const getAllTAblesService = async owner => {
+  const tables = await Table.find({ owner });
+  return tables;
 };

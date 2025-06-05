@@ -1,7 +1,11 @@
+import dayjs from 'dayjs';
 import { Table } from '../db/models/Tabel.js';
 import { User } from '../db/models/User.js';
 import { WorkSession } from '../db/models/WorkSession.js';
 import HttpError from '../helpers/HttpError.js';
+
+
+
 
 export const workSessionService = async (
   tableId,
@@ -27,9 +31,10 @@ export const workSessionService = async (
 
   const checkInDate = new Date(checkInTime);
   const checkOutDate = new Date(checkOutTime);
+  const isWeekEnd = [0, 6].includes(dayjs(checkInTime).day())
   const durationMs = checkOutDate - checkInDate;
   const durationHours = durationMs / (1000 * 60 * 60);
-  const hourlyRate = user.hourlyRate;
+  const hourlyRate = isWeekEnd ? 27 : user.hourlyRate;
   const salary = durationHours * hourlyRate;
 
   const session = new WorkSession({

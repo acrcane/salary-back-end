@@ -10,7 +10,7 @@ export const createTableController = async (req, res, next) => {
   const userId = req.user._id;
   try {
     const table = await createTableService(userId);
-    res.status(200).json(table);
+    res.status(200).json([table]);
   } catch (error) {
     next(error);
   }
@@ -24,7 +24,7 @@ export const getTableController = async (req, res, next) => {
     if(!id || !usedId){
       throw HttpError(404, 'not found')
     }
-    res.status(200).json(userTable);
+    res.status(200).json([userTable]);
   } catch (error) {
     next(error)
   }

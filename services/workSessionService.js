@@ -44,7 +44,7 @@ export const workSessionService = async (
     checkIn: checkInTime,
     checkOut: checkOutTime,
     duration: durationHours,
-    salary: salary,
+    salary: parseFloat(salary).toFixed(2),
   });
   await session.save();
 

@@ -16,7 +16,7 @@ export const createTableService = async userId => {
 
   await table.save();
 
-  return table;
+  return table.toObject();
 };
 
 export const getTableService = async (id, owner) => {
@@ -24,7 +24,7 @@ export const getTableService = async (id, owner) => {
     _id: id,
     owner,
     status: 'open',
-  }).populate('workSession');
+  }).populate('workSession').lean();
   return table;
 };
 
@@ -42,6 +42,6 @@ export const closeTableService = async (id, owner) => {
 };
 
 export const getAllTAblesService = async owner => {
-  const tables = await Table.find({ owner });
+  const tables = await Table.find({ owner }).lean();
   return tables;
 };

@@ -11,3 +11,7 @@ export const loginSchema = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required(),
 });
+
+export const salarySchema = Joi.object({
+  hourlyRate: Joi.number().required(),
+});

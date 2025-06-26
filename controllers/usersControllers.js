@@ -4,6 +4,7 @@ import {
   ifEmailExists,
   logoutUser,
   updateUserWithToken,
+  salaryRateService,
 } from '../services/userServices.js';
 
 export const signupController = async (req, res, next) => {
@@ -34,7 +35,7 @@ export const signinController = async (req, res, next) => {
       throw HttpError(401, 'Wrong email or password');
     }
 
-    const isValidPass = user.comparePassword(password);
+    const isValidPass = await user.comparePassword(password);
     if (!isValidPass) {
       throw HttpError(401, 'Wrong email or password');
     }
@@ -65,4 +66,15 @@ export const signout = async (req, res) => {
   const { _id } = req.user;
   await logoutUser(_id);
   res.sendStatus(204);
+};
+
+export const salaryPerHourController = async (req, res, next) => {
+  const { _id } = req.user;
+  const { hourlyRate } = req.body;
+  try {
+    await salaryRateService(_id, hourlyRate);
+    res.status(200).json({hourlyRate});
+  } catch (error) {
+    next(error);
+  }
 };

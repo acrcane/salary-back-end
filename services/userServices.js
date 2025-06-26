@@ -33,3 +33,12 @@ export const createUser = async userData => {
 export const logoutUser = async id => {
   return await User.findByIdAndUpdate(id, { token: null });
 };
+
+export const salaryRateService = async (id,  hourlyRate ) => {  
+  const salaryUpd = await User.findByIdAndUpdate(
+    id,
+    { hourlyRate },
+    { new: true }
+  );  
+  return salaryUpd;
+};

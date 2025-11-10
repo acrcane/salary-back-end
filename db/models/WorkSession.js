@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 const workSessionSchema = new Schema(
   {
     owner: { type: Schema.Types.ObjectId, ref: 'user', required: true },
-    table: { type: Schema.Types.ObjectId, ref: 'tabel', required: true },
+    table: { type: Schema.Types.ObjectId, ref: 'table', required: true },
     date: { type: Date, default: Date.now },
     checkIn: { type: Date, required: true },
     checkOut: { type: Date, required: true },

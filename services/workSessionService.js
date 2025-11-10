@@ -34,7 +34,7 @@ export const workSessionService = async (
   const isWeekEnd = [0, 6].includes(dayjs(checkInTime).day())
   const durationMs = checkOutDate - checkInDate;
   const durationHours = durationMs / (1000 * 60 * 60);
-  const hourlyRate = isWeekEnd ? 27 : user.hourlyRate;
+  const hourlyRate = isWeekEnd ? 33 : user.hourlyRate;
   const salary = durationHours * hourlyRate;
 
   const session = new WorkSession({

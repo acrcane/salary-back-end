@@ -42,6 +42,7 @@ export const closeTableController = async (req, res, next) => {
   try {
     const closedTable = await closeTableService(id, userId);
     res.status(200).json({ message: 'Table is close', closedTable });
+    // res.status(200).json(closedTable)
   } catch (error) {
     next(error);
   }

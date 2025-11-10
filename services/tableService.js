@@ -56,6 +56,7 @@ export const closeTableService = async (id, owner) => {
   // table._id = null;
   table.closedAt = new Date();
   await table.save();
+  return table.toObject()
 };
 
 export const getAllTAblesService = async owner => {

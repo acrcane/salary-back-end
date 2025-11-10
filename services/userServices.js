@@ -1,7 +1,8 @@
 import { User } from '../db/models/User.js';
 import jwt from 'jsonwebtoken';
 
-const { SECRET_KEY } = process.env;
+const { SECRET_KEY, ADMIN } = process.env;
+
 
 export const ifEmailExists = async email => {
   const exists = await User.findOne({ email });
@@ -22,8 +23,8 @@ export const updateUserWithToken = async id => {
 export const createUser = async userData => {
   const user = new User(userData);
   await user.hashPassword();
-  if (user.name === 'George') {
-    user.role = 'admin';
+  if (user.name === ADMIN) {
+    user.role = 'manager';
   }
   await user.save();
   const userWithToken = await updateUserWithToken(user._id);
@@ -42,3 +43,8 @@ export const salaryRateService = async (id,  hourlyRate ) => {
   );  
   return salaryUpd;
 };
+
+export const getAllUsers = async (companyManager) => {
+  const users = await User.find({company: companyManager}, '-password -__v -token')
+  return users
+}

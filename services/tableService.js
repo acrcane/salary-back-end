@@ -1,4 +1,5 @@
 import { Table } from '../db/models/Tabel.js';
+import { User } from '../db/models/User.js';
 import HttpError from '../helpers/HttpError.js';
 import { currentMonth } from '../helpers/currentMonth.js';
 
@@ -19,12 +20,27 @@ export const createTableService = async userId => {
   return table.toObject();
 };
 
-export const getTableService = async (id, owner) => {
-  const table = await Table.findOne({
-    _id: id,
-    owner,
-    status: 'open',
-  }).populate('workSession').lean();
+export const getTableService = async (id, user) => {
+  const filter = { _id: id, status: 'open' };
+  if (user.role === 'manager') {
+    const companyUsers = await User.find({ company: user.company }).select(
+      '_id'
+    );
+    const userId = companyUsers.map(user => user._id);
+    filter.owner = { $in: userId };
+  } else {
+    filter.owner = user._id;
+  }
+
+  const table = await Table.findOne(filter)
+    .populate('owner', 'name email company')
+    .populate('workSession')
+    .lean();
+  // const table = await Table.findOne({
+  //   _id: id,
+  //   owner,
+  //   status: 'open',
+  // }).populate('workSession').lean();
   return table;
 };
 
@@ -37,6 +53,7 @@ export const closeTableService = async (id, owner) => {
     throw HttpError(400, 'This table is already close');
   }
   table.status = 'close';
+  // table._id = null;
   table.closedAt = new Date();
   await table.save();
 };

@@ -5,10 +5,11 @@ import {
   logoutUser,
   updateUserWithToken,
   salaryRateService,
+  getAllUsers,
 } from '../services/userServices.js';
 
 export const signupController = async (req, res, next) => {
-  const { name, email } = req.body;
+  const { name, email, company, hourlyRate } = req.body;
   try {
     const exists = await ifEmailExists(email);
     if (exists) {
@@ -20,6 +21,8 @@ export const signupController = async (req, res, next) => {
       user: {
         name,
         email,
+        company,
+        hourlyRate
       },
     });
   } catch (error) {
@@ -47,7 +50,6 @@ export const signinController = async (req, res, next) => {
         email,
         name: user.name,
         role: user.role,
-        hourlyRate: user.hourlyRate,
       },
       token: authUser.token,
     });
@@ -57,9 +59,11 @@ export const signinController = async (req, res, next) => {
 };
 
 export const currentUserController = async (req, res) => {
-  const { name, email, role } = req.user;
-
-  res.status(200).json({ name, email, role });
+  const { name, email, role, hourlyRate } = req.user;
+  if(!req.user){
+    return res.status(401).json({ error: 'we are here' });
+  }
+  res.status(200).json({ name, email, role, hourlyRate });
 };
 
 export const signout = async (req, res) => {
@@ -78,3 +82,18 @@ export const salaryPerHourController = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getAllUsersController = async (req, res, next) => {
+  try {
+    const companyManager = req.user.company
+    if(!companyManager) {
+      throw HttpError(403, 'Wrong company')
+    }
+    const users = await getAllUsers(companyManager)
+    console.log(users);
+    
+    res.status(200).json(users)
+  } catch (error) {
+    next(error)
+  }
+}

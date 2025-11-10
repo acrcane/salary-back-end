@@ -9,7 +9,7 @@ import {
 } from '../controllers/usersControllers.js';
 import { isValidToken } from '../middlewares/isValidToken.js';
 import { loginSchema, signupSchema, salarySchema } from '../schemas/usersSchemas.js';
-import { isAdmin } from '../middlewares/isAdmin.js';
+import { isManager } from '../middlewares/isManager.js';
 
 const userRouter = express.Router();
 
@@ -17,7 +17,6 @@ userRouter.post('/signup', validateBody(signupSchema), signupController);
 userRouter.post('/signin', validateBody(loginSchema), signinController);
 userRouter.get('/current', isValidToken, currentUserController);
 userRouter.post('/signout', isValidToken, signout);
-userRouter.get('/admin', isValidToken, isAdmin, currentUserController);
-userRouter.patch('/salaryupd', isValidToken, salaryPerHourController)
+userRouter.patch('/salaryupd', isValidToken, isManager, validateBody(salarySchema),salaryPerHourController)
 
 export default userRouter;

@@ -6,6 +6,7 @@ import connectDB from "./db/connect.js";
 import userRouter from "./routes/usersRouter.js";
 import tableRoute from "./routes/tablesRouter.js";
 import workSessionRouter from "./routes/workSessionsRouter.js";
+import managerRoute from "./routes/managerRoute.js";
 
 dotenv.config();
 const { PORT } = process.env;
@@ -20,12 +21,14 @@ app.use(express.static("public"));
 app.use("/users", userRouter);
 app.use("/table", tableRoute)
 app.use('/work-session', workSessionRouter)
+app.use('/manager', managerRoute)
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
 });
 
 app.use((err, req, res, next) => {
+  console.error(err.message)
   const { status = 500, message = "Server error" } = err;
   res.status(status).json({ message });
 });

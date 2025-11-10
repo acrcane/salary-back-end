@@ -1,4 +1,5 @@
 import HttpError from '../helpers/HttpError.js';
+import mongoose from 'mongoose';
 import {
   closeTableService,
   createTableService,
@@ -19,10 +20,15 @@ export const createTableController = async (req, res, next) => {
 export const getTableController = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const usedId = req.user._id;
-    const userTable = await getTableService(id, usedId);
-    if (!id || !usedId) {
-      throw HttpError(404, 'not found');
+
+    const user = req.user
+    if (!mongoose.isValidObjectId(id)) {
+      throw HttpError(404, 'invalid table id');
+    }
+    const userTable = await getTableService(id, user);
+
+    if(!userTable){
+      throw HttpError(404, 'table not found')
     }
     res.status(200).json(userTable);
   } catch (error) {

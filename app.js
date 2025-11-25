@@ -13,6 +13,10 @@ const { PORT } = process.env;
 
 const app = express();
 
+app.use((req, res, next) => {
+  console.log("Request origin", req.headers.origin)
+})
+
 const allowedOrigins = ['http://localhost:5173', 'https://acrcane.github.io', "https://acrcane.github.io/salary-front-end"];
 
 
@@ -69,9 +73,6 @@ app.use('/table', tableRoute);
 app.use('/work-session', workSessionRouter);
 app.use('/manager', managerRoute);
 
-app.use((req, res, next) => {
-  console.log("Request origin", req.headers.origin)
-})
 
 app.use((_, res) => {
   res.status(404).json({ message: 'Route not found' });

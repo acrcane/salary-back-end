@@ -18,9 +18,17 @@ const allowedOrigins = ['http://localhost:5173', 'https://acrcane.github.io', "h
 app.use(
   cors({
     origin: allowedOrigins,
-    credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+app.options(
+  '*',
+  cors({
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 

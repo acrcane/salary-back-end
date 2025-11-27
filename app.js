@@ -118,7 +118,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// 🔥 ПРАВИЛЬНИЙ CORS
 app.use(cors({
   origin: function(origin, callback) {
     if (!origin) return callback(null, true); 
@@ -133,7 +132,7 @@ app.use(cors({
   credentials: true
 }));
 
-// 🔥 CORS for OPTIONS
+
 app.options('*', cors({
   origin: function(origin, callback) {
     if (!origin) return callback(null, true);

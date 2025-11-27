@@ -36,11 +36,6 @@ export const getTableService = async (id, user) => {
     .populate('owner', 'name email company')
     .populate('workSession')
     .lean();
-  // const table = await Table.findOne({
-  //   _id: id,
-  //   owner,
-  //   status: 'open',
-  // }).populate('workSession').lean();
   return table;
 };
 

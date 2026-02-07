@@ -6,8 +6,8 @@ const workSessionSchema = new Schema(
     table: { type: Schema.Types.ObjectId, ref: 'table', required: true },
     date: { type: Date, default: Date.now },
     checkIn: { type: Date, required: true },
-    checkOut: { type: Date, required: true },
-    duration: { type: Number, required: true },
+    checkOut: { type: Date },
+    duration: { type: Number },
     salary: { type: Number },
   },
   { versionKey: false }

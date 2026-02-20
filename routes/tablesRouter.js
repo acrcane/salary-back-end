@@ -11,7 +11,7 @@ const tableRoute = express.Router();
 
 tableRoute.post('/create', isValidToken, createTableController);
 tableRoute.get('/alltables', isValidToken, getAllTablesController)
-tableRoute.get('/:id', isValidToken, getTableController);
+tableRoute.get('/active-table', isValidToken, getTableController);
 tableRoute.patch('/close/:id', isValidToken, closeTableController)
 
 export default tableRoute;

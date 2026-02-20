@@ -20,14 +20,14 @@ export const createTableService = async userId => {
   return table.toObject();
 };
 
-export const getTableService = async (id, user) => {
-  const filter = { _id: id, status: 'open' };
+export const getTableService = async (user) => {
+  const filter = { status: 'open' };
   if (user.role === 'manager') {
     const companyUsers = await User.find({ company: user.company }).select(
       '_id'
     );
-    const userId = companyUsers.map(user => user._id);
-    filter.owner = { $in: userId };
+    const userIds = companyUsers.map(user => user._id);
+    filter.owner = { $in: userIds };
   } else {
     filter.owner = user._id;
   }

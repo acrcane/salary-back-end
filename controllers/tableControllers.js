@@ -19,13 +19,12 @@ export const createTableController = async (req, res, next) => {
 
 export const getTableController = async (req, res, next) => {
   try {
-    const id = req.params.id;
 
     const user = req.user
-    if (!mongoose.isValidObjectId(id)) {
-      throw HttpError(404, 'invalid table id');
-    }
-    const userTable = await getTableService(id, user);
+    // if (!mongoose.isValidObjectId(id)) {
+    //   throw HttpError(404, 'invalid table id');
+    // }
+    const userTable = await getTableService(user);
 
     if(!userTable){
       throw HttpError(404, 'table not found')

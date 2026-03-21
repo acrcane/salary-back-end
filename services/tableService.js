@@ -3,7 +3,7 @@ import { User } from '../db/models/User.js';
 import HttpError from '../helpers/HttpError.js';
 import { currentMonth } from '../helpers/currentMonth.js';
 
-export const createTableService = async userId => {
+export const createTableService = async (userId) => {
   const openTabel = await Table.findOne({
     owner: userId,
     status: 'open',
@@ -48,13 +48,13 @@ export const closeTableService = async (id, owner) => {
     throw HttpError(400, 'This table is already close');
   }
   table.status = 'close';
-  // table._id = null;
+
   table.closedAt = new Date();
   await table.save();
   return table.toObject()
 };
 
-export const getAllTAblesService = async owner => {
+export const getAllTablesService = async (owner) => {
   const tables = await Table.find({ owner }).lean();
   return tables;
 };

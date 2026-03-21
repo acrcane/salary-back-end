@@ -90,7 +90,6 @@ export const getAllUsersController = async (req, res, next) => {
       throw HttpError(403, 'Wrong company')
     }
     const users = await getAllUsers(companyManager)
-    console.log(users);
     
     res.status(200).json(users)
   } catch (error) {

@@ -1,9 +1,8 @@
 import HttpError from '../helpers/HttpError.js';
-import mongoose from 'mongoose';
 import {
   closeTableService,
   createTableService,
-  getAllTAblesService,
+  getAllTablesService,
   getTableService,
 } from '../services/tableService.js';
 
@@ -21,9 +20,7 @@ export const getTableController = async (req, res, next) => {
   try {
 
     const user = req.user
-    // if (!mongoose.isValidObjectId(id)) {
-    //   throw HttpError(404, 'invalid table id');
-    // }
+
     const userTable = await getTableService(user);
 
     if(!userTable){
@@ -41,7 +38,7 @@ export const closeTableController = async (req, res, next) => {
   try {
     const closedTable = await closeTableService(id, userId);
     res.status(200).json({ message: 'Table is close', closedTable });
-    // res.status(200).json(closedTable)
+
   } catch (error) {
     next(error);
   }
@@ -50,7 +47,7 @@ export const closeTableController = async (req, res, next) => {
 export const getAllTablesController = async (req, res, next) => {
   try {
     const { _id } = req.user;
-    const userTables = await getAllTAblesService(_id);
+    const userTables = await getAllTablesService(_id);
     res.status(200).json(userTables);
   } catch (error) {
     next(error);

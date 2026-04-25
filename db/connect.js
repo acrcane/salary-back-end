@@ -6,10 +6,11 @@ const { DB_HOST } = process.env;
 
 const connectDB = async () => {
   try {
-    connect(DB_HOST);
+    await connect(DB_HOST);
     console.log('DB connected');
   } catch (error) {
     console.log(error);
+    process.exit(1)
   }
 };
 

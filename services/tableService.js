@@ -7,7 +7,7 @@ export const createTableService = async (userId) => {
   const openTabel = await Table.findOne({
     owner: userId,
     status: 'open',
-  });
+  }).lean();
 
   if (openTabel) {
     throw HttpError(400, 'You already have an open table');

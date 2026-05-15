@@ -1,6 +1,5 @@
 import Joi from 'joi';
 
-
 const shiftSchema = Joi.object({
   doctor: Joi.string().min(2).max(50).required(),
   assistant: Joi.string().min(2).max(50).required(),
@@ -14,22 +13,7 @@ const daySchema = Joi.object({
 });
 
 export const scheduleSchema = Joi.object({
-  month: Joi.string()
-    .valid(
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    )
-    .required(),
+  month: Joi.number().max(12).required(),
 
   year: Joi.number().integer().min(2020).max(2100).required(),
 

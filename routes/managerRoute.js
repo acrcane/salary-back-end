@@ -2,13 +2,14 @@ import express from 'express';
 import { isValidToken } from '../middlewares/isValidToken.js';
 import { isManager } from '../middlewares/isManager.js';
 import { currentUserController, getAllUsersController } from '../controllers/usersControllers.js';
-import { getAllUsesTable, getLastTableController } from '../controllers/managerControllers.js';
+import { getAllUsesTable, getLastTableController, removeUserController } from '../controllers/managerControllers.js';
 
-const managerRoute = express()
+const managerRoute = express.Router()
 
 managerRoute.get('/',isValidToken, isManager, currentUserController);
-managerRoute.get('/allusers', isValidToken, isManager, getAllUsersController )
+managerRoute.get('/users', isValidToken, isManager, getAllUsersController )
 managerRoute.get('/tables', isValidToken, isManager, getAllUsesTable)
-managerRoute.get('/user-last-table/:id', isValidToken, isManager, getLastTableController)
+managerRoute.get('/users/:id/last-table', isValidToken, isManager, getLastTableController)
+managerRoute.delete('/user/:id', isValidToken, isManager, removeUserController)
 
 export default managerRoute

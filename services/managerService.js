@@ -1,5 +1,6 @@
 import { Table } from '../db/models/Tabel.js';
 import { User } from '../db/models/User.js';
+import HttpError from '../helpers/HttpError.js';
 
 export const getAllManagerService = async () => {
   const tables = await Table.find({ status: 'open' }).populate('owner');
@@ -14,13 +15,21 @@ export const getUserLastTable = async id => {
   return table;
 };
 
+export const updateUserService = async (id, updateData) => {
+  const user = await User.findByIdAndUpdate(
+    id,
+    { $set: updateData },
+    { new: true, runValidators: true }
+  );
+  if (!user) {
+    throw HttpError(404, 'User not found');
+  }
+};
 
 export const removeUserService = async id => {
-  const user = await User.findByIdAndDelete(id)
-  if(!user){
-    throw HttpError(404, 'User not found')
+  const user = await User.findByIdAndDelete(id);
+  if (!user) {
+    throw HttpError(404, 'User not found');
   }
-  console.log(user);
-  
-  return user
-}
+  return user;
+};

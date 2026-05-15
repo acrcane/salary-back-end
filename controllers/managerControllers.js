@@ -3,6 +3,7 @@ import {
   getAllManagerService,
   getUserLastTable,
   removeUserService,
+  updateUserService,
 } from '../services/managerService.js';
 
 export const getAllUsesTable = async (req, res, next) => {
@@ -32,6 +33,17 @@ export const getLastTableController = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateUserController = async (req, res, next) => {
+  try {
+    const id = req.params.id
+    const updateData = req.body
+    const updateUser = await updateUserService(id, updateData)
+    res.status(200).json(updateUser)
+  } catch (error) {
+    next(error)
+  }
+}
 
 export const removeUserController = async (req, res, next) => {
   try {

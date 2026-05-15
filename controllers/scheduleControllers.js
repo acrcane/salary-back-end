@@ -1,5 +1,4 @@
-import HttpError from '../helpers/HttpError.js';
-import { createScheduleService } from '../services/scheduleService.js';
+import { createScheduleService, getActiveScheduleService } from '../services/scheduleService.js';
 
 export const createSchedule = async (req, res, next) => {
   try {
@@ -15,4 +14,15 @@ export const createSchedule = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getActiveScheduleContriller = async (req, res, next) => {
+  try {
+    const company = req.user.company
+    const schedule = await getActiveScheduleService(company)
+
+    res.status(200).json(schedule)
+  } catch (error) {
+    next(error)
+  }
+}
 

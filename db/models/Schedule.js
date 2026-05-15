@@ -20,7 +20,7 @@ const daySchema = new Schema(
 
 const scheduleSchema = new Schema(
   {
-    month: { type: String, required: true },
+    month: { type: Number, required: true },
     year: { type: Number, required: true },
 
     days: {

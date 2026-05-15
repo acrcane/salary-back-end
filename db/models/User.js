@@ -10,7 +10,7 @@ const userSchema = new Schema(
     company: { type: String, required: true },
     role: {
       type: String,
-      enum: ['assistent', 'hygienist', 'moder'],
+      enum: ['assistent', 'hygienist', 'manager'],
       default: 'assistent',
     },
     hourlyRate: { type: Number, required: true },

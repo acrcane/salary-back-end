@@ -10,3 +10,11 @@ export const createScheduleService = async data => {
   const schedule = await Schedule.create({ ...data });
   return schedule;
 };
+
+export const getActiveScheduleService = async company => {
+  const schedule = await Schedule.findOne({company, status: 'active'})
+  if(!schedule) {
+    throw HttpError(404, 'No active schedule found')
+  }
+  return schedule
+}

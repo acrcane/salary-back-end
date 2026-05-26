@@ -55,6 +55,8 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
+app.get('/ping', (_, res) => res.sendStatus(200))
+
 connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`Server is running. Use our API on port: ${PORT}`);

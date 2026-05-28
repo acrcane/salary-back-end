@@ -38,6 +38,8 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.static('public'));
 
+app.get('/ping', (_, res) => res.sendStatus(200))
+
 app.use('/users', userRouter);
 app.use('/table', tableRoute);
 app.use('/work-session', workSessionRouter);
@@ -54,8 +56,6 @@ app.use((err, req, res, next) => {
   const { status = 500, message = 'Server error' } = err;
   res.status(status).json({ message });
 });
-
-app.get('/ping', (_, res) => res.sendStatus(200))
 
 connectDB().then(() => {
   app.listen(PORT, () => {

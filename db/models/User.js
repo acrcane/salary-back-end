@@ -14,7 +14,7 @@ const userSchema = new Schema(
       default: 'assistent',
     },
     hourlyRate: { type: Number, required: true },
-    hygienePercent: {type: Number, required: true}
+    hygienePercent: {type: Number, default: 0, required: true}
   },
   { versionKey: false }
 );

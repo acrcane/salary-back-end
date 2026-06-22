@@ -33,10 +33,18 @@ export const getTableService = async (user) => {
   }
 
   const table = await Table.findOne(filter)
-    .populate('owner', 'name email company')
+    .populate('owner', 'name email company hourlyRate')
     .populate('workSession')
     .lean();
-  return table;
+    if (!table) return null 
+
+    const totalHours = table.workSession.reduce((acc, s) => acc + (s.duration || 0), 0)
+    const totalSalary = Number(totalHours * table.owner.hourlyRate).toFixed(2)
+  return {
+    ...table,
+    totalHours: Number(totalHours.toFixed(2)),
+    totalSalary
+  };
 };
 
 export const closeTableService = async (id, owner) => {
@@ -44,10 +52,10 @@ export const closeTableService = async (id, owner) => {
   if (!table) {
     throw HttpError(404, 'Not foun');
   }
-  if (table.status === 'close') {
+  if (table.status === 'closed') {
     throw HttpError(400, 'This table is already close');
   }
-  table.status = 'close';
+  table.status = 'closed';
 
   table.closedAt = new Date();
   await table.save();

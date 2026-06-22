@@ -6,6 +6,7 @@ import tableRoute from './routes/tablesRouter.js';
 import workSessionRouter from './routes/workSessionsRouter.js';
 import managerRoute from './routes/managerRoute.js';
 import scheduleRoute from './routes/scheduleRoute.js';
+import procedureRoute from './routes/procedureRoute.js';
 
 dotenv.config();
 const { PORT } = process.env;
@@ -45,6 +46,7 @@ app.use('/table', tableRoute);
 app.use('/work-session', workSessionRouter);
 app.use('/manager', managerRoute);
 app.use('/schedules', scheduleRoute)
+app.use('/procedures', procedureRoute)
 
 
 app.use((_, res) => {
